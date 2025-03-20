@@ -1,7 +1,7 @@
 {
   "name": "twi-fav-ui",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@rorygudka/react-infinite-scroller": "github:RoryGudka/react-infinite-scroller",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-tweet": "^3.2.2"
