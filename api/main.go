@@ -52,6 +52,7 @@ func getLikedTweetsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(tweets); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
