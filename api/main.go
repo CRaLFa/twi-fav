@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"cloud.google.com/go/compute/metadata"
@@ -41,13 +42,22 @@ func main() {
 }
 
 func getLikedTweetsHandler(w http.ResponseWriter, r *http.Request) {
+	earliestTime := r.URL.Query().Get("earliestTime")
+	if earliestTime == "" {
+		earliestTime = "now()"
+	}
+	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
 	q := `from(bucket: "twi_fav")
-		|> range(start: 1970-01-01T00:00:00Z)
+		|> range(start: 1970-01-01T00:00:00Z, stop: %s)
 		|> filter(fn: (r) => r._measurement == "liked_tweet")
 		|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
 		|> sort(columns: ["_time"], desc: true)
-		|> limit(n: 100)`
-	tweets, err := queryDB(r.Context(), q)
+		|> limit(n: %d)`
+	tweets, err := queryDB(r.Context(), fmt.Sprintf(q, earliestTime, limit))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
@@ -68,7 +78,7 @@ func queryDB(ctx context.Context, query string) ([]tweetData, error) {
 		return nil, err
 	}
 	defer res.Close()
-	var tweets []tweetData
+	tweets := []tweetData{}
 	for res.Next() {
 		rec := res.Record()
 		tweets = append(tweets, tweetData{
