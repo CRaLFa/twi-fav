@@ -11,7 +11,9 @@ import (
 
 	"cloud.google.com/go/compute/metadata"
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
+	"github.com/influxdata/influxdb-client-go/v2/api/query"
 	"github.com/joho/godotenv"
+	"github.com/samber/lo"
 )
 
 var jst = time.FixedZone("Asia/Tokyo", 9*60*60)
@@ -83,15 +85,20 @@ func queryDB(ctx context.Context, query string) ([]tweetData, error) {
 		rec := res.Record()
 		tweets = append(tweets, tweetData{
 			Time:      rec.Time(),
-			Text:      rec.ValueByKey("text").(string),
-			Link:      rec.ValueByKey("link").(string),
-			CreatedAt: toJST(rec.ValueByKey("createdAt").(string)),
+			Text:      stringByKey(rec, "text"),
+			Link:      stringByKey(rec, "link"),
+			CreatedAt: toJST(stringByKey(rec, "createdAt")),
 		})
 	}
 	if res.Err() != nil {
 		return nil, res.Err()
 	}
 	return tweets, nil
+}
+
+func stringByKey(rec *query.FluxRecord, key string) string {
+	v, ok := rec.ValueByKey(key).(string)
+	return lo.Ternary(ok, v, "")
 }
 
 func toJST(s string) string {
