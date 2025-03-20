@@ -6,6 +6,7 @@ require (
 	cloud.google.com/go/compute/metadata v0.6.0
 	github.com/influxdata/influxdb-client-go/v2 v2.14.0
 	github.com/joho/godotenv v1.5.1
+	github.com/samber/lo v1.49.1
 )
 
 require (
@@ -15,4 +16,5 @@ require (
 	github.com/oapi-codegen/runtime v1.0.0 // indirect
 	golang.org/x/net v0.37.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
+	golang.org/x/text v0.23.0 // indirect
 )
