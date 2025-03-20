@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
@@ -26,6 +27,8 @@ func SaveLikedTweet(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Only POST method is allowed", http.StatusMethodNotAllowed)
 		return
 	}
+	// cf: https://github.com/golang/go/issues/50034
+	r.URL.RawQuery = strings.ReplaceAll(r.URL.RawQuery, ";", "%3B")
 	if err := r.ParseForm(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		http.Error(w, "Error parsing form", http.StatusInternalServerError)
