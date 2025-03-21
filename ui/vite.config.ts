@@ -11,6 +11,10 @@ export default defineConfig({
         import.meta.dirname,
         'node_modules/@rorygudka/react-infinite-scroller/index.js',
       ),
+      'react-tweet-theme': path.join(
+        import.meta.dirname,
+        'node_modules/react-tweet/dist/twitter-theme',
+      ),
     },
   },
   base: '/twi-fav/',
