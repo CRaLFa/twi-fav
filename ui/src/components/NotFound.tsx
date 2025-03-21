@@ -7,9 +7,7 @@ export const NotFound: TwitterComponents = {
         <article className='_article_98iqw_21'>
           <div className='_root_16yxa_1'>
             <h3>ツイートを表示できません</h3>
-            <p>
-              以下の原因が考えられます
-            </p>
+            <p>以下の原因が考えられます</p>
             <ul>
               <li>非公開</li>
               <li>センシティブな内容を含む</li>

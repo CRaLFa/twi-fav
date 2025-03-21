@@ -51,6 +51,7 @@ func getLikedTweetsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	limit, err := strconv.Atoi(r.URL.Query().Get("limit"))
 	if err != nil {
+		fmt.Fprintf(os.Stderr, "'limit' query parameter is invalid: %v", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -62,12 +63,14 @@ func getLikedTweetsHandler(w http.ResponseWriter, r *http.Request) {
 		|> limit(n: %d)`
 	tweets, err := queryDB(r.Context(), fmt.Sprintf(query, earliestTime, limit))
 	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to query DB: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(tweets); err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to encode response: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

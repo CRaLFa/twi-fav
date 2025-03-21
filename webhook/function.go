@@ -28,7 +28,7 @@ func SaveLikedTweet(w http.ResponseWriter, r *http.Request) {
 	}
 	createdAt, err := time.Parse("January 2, 2006 at 03:04PM", r.FormValue("createdAt"))
 	if err != nil {
-		fmt.Fprintln(os.Stderr, fmt.Errorf("Error parsing createdAt: %w", err))
+		fmt.Fprintf(os.Stderr, "Error parsing createdAt: %v", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
@@ -39,7 +39,7 @@ func SaveLikedTweet(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Printf("%#v\n", tweet)
 	if err := writeDB(r.Context(), tweet); err != nil {
-		fmt.Fprintln(os.Stderr, fmt.Errorf("Error writing to DB: %w", err))
+		fmt.Fprintf(os.Stderr, "Error writing to DB: %v", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
