@@ -1,6 +1,7 @@
 import InfiniteScroll from '@rorygudka/react-infinite-scroller'
 import { useState } from 'react'
 import { Tweet } from 'react-tweet'
+import './App.css'
 
 type LikedTweet = {
   time: string
