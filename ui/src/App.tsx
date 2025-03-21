@@ -47,12 +47,8 @@ function App() {
   }
 
   return (
-    <InfiniteScroll
-      loadMore={loadMore}
-      hasMore={hasMore}
-      loader={<div key={0}>Loading...</div>}
-    >
-      {tweetIds.map((id, i) => <Tweet key={i} id={id} components={NotFound} />)}
+    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={<div key={0}>Loading...</div>}>
+      {tweetIds.map((id, i) => <Tweet key={i} id={id} onError={() => id} components={NotFound} />)}
     </InfiniteScroll>
   )
 }

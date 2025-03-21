@@ -10,9 +10,10 @@
   "markdown": {
   },
   "malva": {
-    "indentWidth": 2,
+    "indentWidth": 2
   },
   "markup": {
+    "printWidth": 120
   },
   "excludes": [
     "**/node_modules",
