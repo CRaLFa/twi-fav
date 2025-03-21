@@ -26,15 +26,15 @@ deploy_api () {
 
 main () {
     cd "$(dirname "$0")"
-    local projact_id=$(yq -r '.PROJECT_ID' < .env.yaml)
+    local project_id=$(yq -r '.PROJECT_ID' < .env.yaml)
     [[ $# -lt 1 || "$1" = 'webhook' ]] && {
         echo -e "Deploying webhook...\n"
-        deploy_webhook "$projact_id"
+        deploy_webhook "$project_id"
         echo
     }
     [[ $# -lt 1 || "$1" = 'api' ]] && {
         echo -e "Deploying api...\n"
-        deploy_api "$projact_id"
+        deploy_api "$project_id"
     }
 }
 

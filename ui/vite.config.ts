@@ -8,7 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@rorygudka/react-infinite-scroller': path.join(
-        __dirname,
+        import.meta.dirname,
         'node_modules/@rorygudka/react-infinite-scroller/index.js',
       ),
     },

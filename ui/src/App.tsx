@@ -18,7 +18,6 @@ const fetchTweetIds = async (earliestTime: string) => {
     throw new Error('Failed to fetch liked tweets')
   }
   const tweets: LikedTweet[] = await res.json()
-  console.log(tweets)
   return {
     newTweetIds: tweets.map((tweet) => tweet.link.split('/').pop()).filter((id) => id !== undefined),
     newEarliestTime: tweets.at(-1)?.time,
@@ -31,13 +30,18 @@ function App() {
   const [earliestTime, setEarliestTime] = useState('')
 
   const loadMore = async () => {
-    const { newTweetIds, newEarliestTime } = await fetchTweetIds(earliestTime)
-    if (newTweetIds.length < 1 || !newEarliestTime) {
-      setHasMore(false)
-      return
+    try {
+      const { newTweetIds, newEarliestTime } = await fetchTweetIds(earliestTime)
+      if (newTweetIds.length < 1 || !newEarliestTime) {
+        setHasMore(false)
+        return
+      }
+      setTweetIds([...tweetIds, ...newTweetIds])
+      setEarliestTime(newEarliestTime)
+    } catch (e) {
+      console.error(e)
+      window.alert('ツイートの取得に失敗しました。')
     }
-    setTweetIds([...tweetIds, ...newTweetIds])
-    setEarliestTime(newEarliestTime)
   }
 
   return (

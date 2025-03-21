@@ -39,6 +39,7 @@ func main() {
 		fmt.Fprint(w, "Hello, world!")
 	})
 	mux.HandleFunc("GET /liked-tweets", getLikedTweetsHandler)
+
 	fmt.Println("Server is running on port 8080")
 	http.ListenAndServe(":8080", mux)
 }
@@ -53,17 +54,18 @@ func getLikedTweetsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	q := `from(bucket: "twi_fav")
+	query := `from(bucket: "twi_fav")
 		|> range(start: 1970-01-01T00:00:00Z, stop: %s)
 		|> filter(fn: (r) => r._measurement == "liked_tweet")
 		|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
 		|> sort(columns: ["_time"], desc: true)
 		|> limit(n: %d)`
-	tweets, err := queryDB(r.Context(), fmt.Sprintf(q, earliestTime, limit))
+	tweets, err := queryDB(r.Context(), fmt.Sprintf(query, earliestTime, limit))
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(tweets); err != nil {
@@ -74,12 +76,14 @@ func getLikedTweetsHandler(w http.ResponseWriter, r *http.Request) {
 func queryDB(ctx context.Context, query string) ([]tweetData, error) {
 	client := influxdb2.NewClient(os.Getenv("INFLUXDB2_URL"), os.Getenv("INFLUXDB2_TOKEN"))
 	defer client.Close()
+
 	api := client.QueryAPI(os.Getenv("INFLUXDB2_ORG"))
 	res, err := api.Query(ctx, query)
 	if err != nil {
 		return nil, err
 	}
 	defer res.Close()
+
 	tweets := []tweetData{}
 	for res.Next() {
 		rec := res.Record()
@@ -90,8 +94,8 @@ func queryDB(ctx context.Context, query string) ([]tweetData, error) {
 			CreatedAt: toJST(stringByKey(rec, "createdAt")),
 		})
 	}
-	if res.Err() != nil {
-		return nil, res.Err()
+	if err := res.Err(); err != nil {
+		return nil, err
 	}
 	return tweets, nil
 }
