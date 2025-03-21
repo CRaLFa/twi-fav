@@ -36,7 +36,7 @@ func init() {
 func main() {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello, world!")
+		fmt.Fprint(w, "<h1>Hello, twi-fav-api!</h1>")
 	})
 	mux.HandleFunc("GET /liked-tweets", getLikedTweetsHandler)
 
@@ -65,7 +65,6 @@ func getLikedTweetsHandler(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	if err := json.NewEncoder(w).Encode(tweets); err != nil {
