@@ -51,10 +51,10 @@ func writeDB(ctx context.Context, tweet tweet) error {
 	defer client.Close()
 
 	api := client.WriteAPIBlocking(os.Getenv("INFLUXDB2_ORG"), os.Getenv("INFLUXDB2_BUCKET"))
-	p := influxdb2.NewPointWithMeasurement("liked_tweet").
+	point := influxdb2.NewPointWithMeasurement("liked_tweet").
 		AddField("text", tweet.Text).
 		AddField("link", tweet.Link).
 		AddField("createdAt", tweet.CreatedAt).
 		SetTime(time.Now())
-	return api.WritePoint(ctx, p)
+	return api.WritePoint(ctx, point)
 }

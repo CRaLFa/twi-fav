@@ -2,6 +2,7 @@ import InfiniteScroll from '@rorygudka/react-infinite-scroller'
 import { useState } from 'react'
 import { Tweet } from 'react-tweet'
 import './App.css'
+import { NotFound } from './components/NotFound'
 
 type LikedTweet = {
   time: string
@@ -51,7 +52,7 @@ function App() {
       hasMore={hasMore}
       loader={<div key={0}>Loading...</div>}
     >
-      {tweetIds.map((id, i) => <Tweet key={i} id={id} />)}
+      {tweetIds.map((id, i) => <Tweet key={i} id={id} components={NotFound} />)}
     </InfiniteScroll>
   )
 }
