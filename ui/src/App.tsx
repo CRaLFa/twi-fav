@@ -11,11 +11,11 @@ type LikedTweet = {
   createdAt: string
 }
 
-const GET_URL = 'https://twi-fav-api-823271554794.asia-northeast1.run.app/liked-tweets'
+const API_URL = 'https://twi-fav-api-823271554794.asia-northeast1.run.app'
 const LIMIT = 10
 
 const fetchTweetLinks = async (earliestTime: string) => {
-  const res = await fetch(`${GET_URL}?earliestTime=${encodeURIComponent(earliestTime)}&limit=${LIMIT}`)
+  const res = await fetch(`${API_URL}/liked-tweets?earliestTime=${encodeURIComponent(earliestTime)}&limit=${LIMIT}`)
   if (!res.ok) {
     throw new Error('Failed to fetch liked tweets')
   }
@@ -42,20 +42,16 @@ function App() {
       setEarliestTime(newEarliestTime)
     } catch (e) {
       console.error(e)
-      window.alert('ツイートの取得に失敗しました。')
+      window.alert('ツイートの取得に失敗しました')
     }
   }
 
   return (
     <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={<div key={0}>Loading...</div>}>
-      {tweetLinks.map((link, i) => (
-        <Tweet
-          key={i}
-          id={link.split('/').pop()!}
-          onError={() => link}
-          components={NotFound}
-        />
-      ))}
+      {tweetLinks.map((link) => {
+        const id = link.split('/').pop()!
+        return <Tweet key={id} id={id} onError={() => link} components={NotFound} />
+      })}
     </InfiniteScroll>
   )
 }

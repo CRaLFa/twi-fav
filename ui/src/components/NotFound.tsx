@@ -13,11 +13,11 @@ export const NotFound: TwitterComponents = {
           <ul>
             <li>非公開</li>
             <li>センシティブな内容を含む</li>
-            <li>添付メディアの形式が非対応</li>
+            <li>メディアの形式が非対応</li>
             <li>削除済み</li>
           </ul>
           <p>
-            <a href={link} target='_blank' className={replies_styles.link}>
+            <a href={link} target='_blank' rel='noreferrer' className={replies_styles.link}>
               <span className={replies_styles.text}>X で表示する</span>
             </a>
           </p>
