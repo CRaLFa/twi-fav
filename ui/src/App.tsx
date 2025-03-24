@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Tweet } from 'react-tweet'
 import './App.css'
 import { NotFound } from './components/NotFound'
+import ScrollTopButton from './components/ScrollTopButton'
 
 type LikedTweet = {
   time: string
@@ -47,12 +48,15 @@ function App() {
   }
 
   return (
-    <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={<div key={0}>Loading...</div>}>
-      {tweetLinks.map((link) => {
-        const id = link.split('/').pop()!
-        return <Tweet key={id} id={id} onError={() => link} components={NotFound} />
-      })}
-    </InfiniteScroll>
+    <>
+      <InfiniteScroll loadMore={loadMore} hasMore={hasMore} loader={<div key={0}>Loading...</div>}>
+        {tweetLinks.map((link) => {
+          const id = link.split('/').pop()!
+          return <Tweet key={id} id={id} onError={() => link} components={NotFound} />
+        })}
+      </InfiniteScroll>
+      <ScrollTopButton />
+    </>
   )
 }
 

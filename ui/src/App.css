@@ -6,3 +6,25 @@ article {
 .react-tweet-theme {
   max-width: 100%;
 }
+
+.scroll-top {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.scroll-top:hover {
+  opacity: 0.75;
+  transform: scale(1.1);
+}
+
+@media (max-width: 600px) {
+  .scroll-top {
+    bottom: 15px;
+    right: 15px;
+    width: 30px;
+  }
+}
