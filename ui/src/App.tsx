@@ -2,7 +2,7 @@ import InfiniteScroll from '@rorygudka/react-infinite-scroller'
 import { useState } from 'react'
 import { Tweet } from 'react-tweet'
 import './App.css'
-import { NotFound } from './components/NotFound'
+import NotFound from './components/NotFound'
 import ScrollTopButton from './components/ScrollTopButton'
 
 type LikedTweet = {

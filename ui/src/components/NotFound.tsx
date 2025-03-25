@@ -2,7 +2,7 @@ import { TweetContainer, type TwitterComponents } from 'react-tweet'
 import not_found_styles from 'react-tweet-theme/tweet-not-found.module.css'
 import replies_styles from 'react-tweet-theme/tweet-replies.module.css'
 
-export const NotFound: TwitterComponents = {
+const NotFound: TwitterComponents = {
   TweetNotFound: ({ error }) => {
     const link = (error as string).replace('twitter.com', 'x.com')
     return (
@@ -26,3 +26,5 @@ export const NotFound: TwitterComponents = {
     )
   },
 }
+
+export default NotFound

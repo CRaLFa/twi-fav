@@ -6,6 +6,4 @@ const scrollToTop = () =>
     behavior: 'smooth',
   })
 
-export default () => {
-  return <img src={imgUrl} alt='scroll to top' className='scroll-top' onClick={scrollToTop} />
-}
+export default () => <img src={imgUrl} alt='scroll to top' className='scroll-top' onClick={scrollToTop} />
