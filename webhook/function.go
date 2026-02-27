@@ -26,7 +26,7 @@ func SaveLikedTweet(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Only POST method is allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	createdAt, err := time.Parse("2006-01-02T15:04:05 00:00", r.FormValue("createdAt"))
+	createdAt, err := time.Parse("January 2, 2006 at 03:04PM", r.FormValue("createdAt"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Error parsing createdAt: %v", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
