@@ -1,6 +1,6 @@
 module github.com/CRaLFa/twi-fav/webhook
 
-go 1.23.6
+go 1.25.0
 
 require (
 	github.com/GoogleCloudPlatform/functions-framework-go v1.9.1
@@ -19,5 +19,5 @@ require (
 	go.uber.org/atomic v1.4.0 // indirect
 	go.uber.org/multierr v1.1.0 // indirect
 	go.uber.org/zap v1.10.0 // indirect
-	golang.org/x/net v0.36.0 // indirect
+	golang.org/x/net v0.51.0 // indirect
 )
