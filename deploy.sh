@@ -5,7 +5,7 @@ set -eu
 deploy_webhook () {
     gcloud --project=${1} functions deploy twi-fav-webhook \
         --gen2 \
-        --runtime=go123 \
+        --runtime=go125 \
         --region=asia-northeast1 \
         --source=./webhook \
         --entry-point=SaveLikedTweet \

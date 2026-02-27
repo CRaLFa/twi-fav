@@ -57,6 +57,7 @@ func getLikedTweetsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	query := `from(bucket: "twi_fav")
 		|> range(start: 0, stop: %s)
+		|> drop(columns: ["_start", "_stop"])
 		|> filter(fn: (r) => r._measurement == "liked_tweet")
 		|> pivot(rowKey: ["_time"], columnKey: ["_field"], valueColumn: "_value")
 		|> sort(columns: ["_time"], desc: true)
