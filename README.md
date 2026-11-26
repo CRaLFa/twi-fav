@@ -1,3 +1,3 @@
 # twi-fav
 
-Web page which lists liked tweets
+Web page that lists liked tweets collected via a webhook
